@@ -9,6 +9,3 @@
 - [Crypto](./crypto.md)
   - [RustCrypto](./rustcrypto.md)
 - [Record](./record.md)
-  - [Building](./building.md)
-- [Validation](./validation.md)
-- [Security](./security.md)

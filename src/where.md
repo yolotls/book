@@ -19,7 +19,7 @@ Typiclally people either use the integrations which in turn use these crates:
 | Crate            | no_std | no-alloc | Description                   |
 | :---             | :---   | :---     | :---                          |
 | [ytls-server]    | ✅     | ✅       | Server Context                |
-| ytls-client      | WIP    | ✅       | WIP Client Context            |
+| ytls-client      | WIP    | WIP      | WIP Client Context            |
 
 ## Protocol
 

@@ -189,7 +189,7 @@
 <p>Typiclally people either use the integrations which in turn use these crates:</p>
 <div class="table-wrapper"><table><thead><tr><th style="text-align: left">Crate</th><th style="text-align: left">no_std</th><th style="text-align: left">no-alloc</th><th style="text-align: left">Description</th></tr></thead><tbody>
 <tr><td style="text-align: left"><a href="https://github.com/yolotls/yolotls/tree/main/server">ytls-server</a></td><td style="text-align: left">✅</td><td style="text-align: left">✅</td><td style="text-align: left">Server Context</td></tr>
-<tr><td style="text-align: left">ytls-client</td><td style="text-align: left">WIP</td><td style="text-align: left">✅</td><td style="text-align: left">WIP Client Context</td></tr>
+<tr><td style="text-align: left">ytls-client</td><td style="text-align: left">WIP</td><td style="text-align: left">WIP</td><td style="text-align: left">WIP Client Context</td></tr>
 </tbody></table>
 </div>
 <h2 id="protocol"><a class="header" href="#protocol">Protocol</a></h2>
@@ -276,14 +276,37 @@
 <tr><td style="text-align: left">ClientHelloProcessor</td><td style="text-align: left">Client Hello parsing</td></tr>
 </tbody></table>
 </div><div style="break-before: page; page-break-before: always;"></div><h1 id="context-2"><a class="header" href="#context-2">Context</a></h1>
+<p>Context is the state machine that I/O "drivers" spin forward, typically with the given application &amp; network I/O.</p>
+<p>You might want to use these contextes when there is no driver for your environment e.g. in bare metal embedded environment that doesn't f.ex. use embassy or in a wasm environment with custom runtime etc.</p>
+<p>The contextes are split between two depending on which end we are providing a state for: Server and Client.</p>
+<p>Another example of these state machines can be found from <a href="https://yaws-rs.github.io/book/yaws/architechture.html">yaws</a> architecture these contextes closely align to.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="server"><a class="header" href="#server">Server</a></h1>
+<p>Server context is driven with the chosen crypto processor and implementing the required configuration trait.</p>
+<p>A combined non-detached example is provided here:
+<a href="https://github.com/yolotls/yolotls/blob/main/server/examples/listener.rs">server/examples/listener.rs</a></p>
+<p>You can also implement the handshake and application contextes separately providing an opportunity to free the memory from handshake context.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="client"><a class="header" href="#client">Client</a></h1>
+<p>WIP</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="crypto-1"><a class="header" href="#crypto-1">Crypto</a></h1>
+<p>CryptoConfig (trait) is provided for:</p>
+<ul>
+<li>Crypto processor (e.g. rustcrypto) to implement configured initialization</li>
+<li>End-user to bring their desired crypto through the CryptoConfig</li>
+</ul>
+<p>No context makes the choice of crypto for the end-user by default.</p>
+<p>End-user can even implement their own crypto configuration.</p>
+<p>Validation of all the crypto processors are done through trait impl.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="rustcrypto"><a class="header" href="#rustcrypto">RustCrypto</a></h1>
+<p>Rustcrypto is an example crypto config &amp; processor: <a href="https://github.com/yolotls/yolotls/tree/main/crypto/rustcrypto">crypto/rustcrypto</a></p>
+<p>It provides no_std &amp; no_alloc cryptography that we provide in our examples through it's implementation of CryptoConfig.</p>
+<p>You can find rustcrypto primitives from here: <a href="https://github.com/rustcrypto/">https://github.com/rustcrypto/</a></p>
+<p>In addition we use curve25519-dalek which can be foiund from here: <a href="https://github.com/dalek-cryptography/curve25519-dalek">https://github.com/dalek-cryptography/curve25519-dalek</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="record"><a class="header" href="#record">Record</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="building"><a class="header" href="#building">Building</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="validation"><a class="header" href="#validation">Validation</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="security"><a class="header" href="#security">Security</a></h1>
+<p>Record layer provides both the parsing and building of TLS record layer.</p>
+<p>Instead of using allocating types we use "worst case" heapless static arrays that get initialized to the needed point upon building.</p>
+<p>This means that if the configured size of the worst case is lower than what for example other end provides may result into error.</p>
+<p>To ensure records are not overflown we can use maximum record size to tell the other side what is the maximum used record size what we use.</p>
+<p>Builder uses callbacks to fill the data during encoding and parsing also uses callbacks to extract the required information for the downstream layer typiclaly.</p>
 
                     </main>
 

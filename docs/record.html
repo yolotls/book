@@ -153,6 +153,11 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="record"><a class="header" href="#record">Record</a></h1>
+<p>Record layer provides both the parsing and building of TLS record layer.</p>
+<p>Instead of using allocating types we use "worst case" heapless static arrays that get initialized to the needed point upon building.</p>
+<p>This means that if the configured size of the worst case is lower than what for example other end provides may result into error.</p>
+<p>To ensure records are not overflown we can use maximum record size to tell the other side what is the maximum used record size what we use.</p>
+<p>Builder uses callbacks to fill the data during encoding and parsing also uses callbacks to extract the required information for the downstream layer typiclaly.</p>
 
                     </main>
 
@@ -162,9 +167,6 @@
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="building.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -176,9 +178,6 @@
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="building.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
             </nav>
 
         </div>

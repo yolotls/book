@@ -153,6 +153,10 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="context"><a class="header" href="#context">Context</a></h1>
+<p>Context is the state machine that I/O "drivers" spin forward, typically with the given application &amp; network I/O.</p>
+<p>You might want to use these contextes when there is no driver for your environment e.g. in bare metal embedded environment that doesn't f.ex. use embassy or in a wasm environment with custom runtime etc.</p>
+<p>The contextes are split between two depending on which end we are providing a state for: Server and Client.</p>
+<p>Another example of these state machines can be found from <a href="https://yaws-rs.github.io/book/yaws/architechture.html">yaws</a> architecture these contextes closely align to.</p>
 
                     </main>
 

@@ -153,6 +153,14 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="crypto"><a class="header" href="#crypto">Crypto</a></h1>
+<p>CryptoConfig (trait) is provided for:</p>
+<ul>
+<li>Crypto processor (e.g. rustcrypto) to implement configured initialization</li>
+<li>End-user to bring their desired crypto through the CryptoConfig</li>
+</ul>
+<p>No context makes the choice of crypto for the end-user by default.</p>
+<p>End-user can even implement their own crypto configuration.</p>
+<p>Validation of all the crypto processors are done through trait impl.</p>
 
                     </main>
 
